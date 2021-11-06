@@ -1,4 +1,4 @@
- If discount divide on quantity with remainder, we separate quantity and discount on parts so that its divide without remainder.
+ If discount divides by amount with remainder, we divide amount and discount into parts so that it is without remainder.
 
 ![Screen Shot](md/image_2021-11-06_11-47-20.png)
 
