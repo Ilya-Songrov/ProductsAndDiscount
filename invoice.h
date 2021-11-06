@@ -35,6 +35,10 @@ public:
                     l.amount == this->amount &&
                     l.discount == this->discount;
         }
+        friend QDebug operator<< (QDebug dbg, const Line& line){
+            dbg.space() << line.name << line.price << line.amount << line.discount << Qt::endl;
+            return dbg;
+        }
     };
     Invoice();
 
