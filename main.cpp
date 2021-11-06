@@ -24,13 +24,13 @@ int main(int argc, char *argv[])
     invoiceOriginal.appendLine(Invoice::Line{"Product_C", 127, 3, 23});
     invoiceOriginal.appendLine(Invoice::Line{"Product_D", 353, 5, 45});
     invoiceOriginal.appendLine(Invoice::Line{"Product_E", 353, 2, 2});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 353, 13, 245});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 353, 957, 999});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 123, 7111555, 8111555});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 877, 7111555, 17});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_F", 353, 2, 1});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_G", 353, 2, 0});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_H", 353, 0, 1});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_F", 353, 13, 245});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_G", 353, 957, 999});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_H", 123, 7111555, 8111555});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_I", 877, 7111555, 17});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_J", 353, 2, 1});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_K", 353, 2, 0});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_L", 353, 0, 1});
     invoiceOriginal.printInvoice("Original invoice:");
 
     Invoice invoiceModified;
