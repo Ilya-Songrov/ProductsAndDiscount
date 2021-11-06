@@ -19,10 +19,10 @@ DiscountSplitter::DiscountSplitter()
 
 QVector<Invoice::Line> DiscountSplitter::splitInvoiceLine(const Invoice::Line &line)
 {
-    if (line.quantity < 1) {
+    if (line.amount < 1) {
         return QVector<Invoice::Line>{modifyIncorrectLine(line)};
     }
-    else if (line.discount % line.quantity == 0) {
+    else if (line.discount % line.amount == 0) {
         return QVector<Invoice::Line>{line};
     }
     return splitLine(line);
@@ -30,36 +30,36 @@ QVector<Invoice::Line> DiscountSplitter::splitInvoiceLine(const Invoice::Line &l
 
 QVector<Invoice::Line> DiscountSplitter::splitLine(const Invoice::Line &line)
 {
-    QVector<unsigned int> quantity_candidates;
-    quantity_candidates.resize(line.quantity);
-    std::iota(std::begin(quantity_candidates), std::end(quantity_candidates), 1);
-    QVector<QVector<unsigned int>> quantity_output = combinationSum(quantity_candidates, line.quantity, line.quantity);
-    std::sort(quantity_output.begin(), quantity_output.end(), [](const QVector<unsigned int> &vec1, const QVector<unsigned int> &vec2){ return vec1.size() < vec2.size();});
-//    qDebug() << "quantity_output" << quantity_output << Qt::endl;
+    QVector<unsigned int> amount_candidates;
+    amount_candidates.resize(line.amount);
+    std::iota(std::begin(amount_candidates), std::end(amount_candidates), 1);
+    QVector<QVector<unsigned int>> amount_output = combinationSum(amount_candidates, line.amount, line.amount);
+    std::sort(amount_output.begin(), amount_output.end(), [](const QVector<unsigned int> &vec1, const QVector<unsigned int> &vec2){ return vec1.size() < vec2.size();});
+//    qDebug() << "amount_output" << amount_output << Qt::endl;
 
     QVector<unsigned int> discount_candidates;
     discount_candidates.resize(line.discount);
     std::iota(std::begin(discount_candidates), std::end(discount_candidates), 1);
-    QVector<QVector<unsigned int>> discount_output = combinationSum(discount_candidates, line.discount, line.quantity);
+    QVector<QVector<unsigned int>> discount_output = combinationSum(discount_candidates, line.discount, line.amount);
     std::sort(discount_output.begin(), discount_output.end(), [](const QVector<unsigned int> &vec1, const QVector<unsigned int> &vec2){ return vec1.size() < vec2.size();});
 //    qDebug() << "discount_output" << discount_output << Qt::endl;
 
-    return getSplitingLines(quantity_output, discount_output, line);
+    return getSplitingLines(amount_output, discount_output, line);
 }
 
-QVector<Invoice::Line> DiscountSplitter::getSplitingLines(const QVector<QVector<unsigned int> > &quantity_output, const QVector<QVector<unsigned int> > &discount_output, const Invoice::Line &line)
+QVector<Invoice::Line> DiscountSplitter::getSplitingLines(const QVector<QVector<unsigned int> > &amount_output, const QVector<QVector<unsigned int> > &discount_output, const Invoice::Line &line)
 {
     int discountStep = 0;
-    for (const auto& vecQuantity : quantity_output) {
+    for (const auto& vecAmount : amount_output) {
         for (int var = discountStep; var < discount_output.size(); ++var) {
             const auto& vecDiscount = discount_output.at(var);
-            if (vecQuantity.size() == vecDiscount.size()) {
-                const auto vecPairs = findDivisionWithoutRemainder(vecQuantity, vecDiscount);
+            if (vecAmount.size() == vecDiscount.size()) {
+                const auto vecPairs = findDivisionWithoutRemainder(vecAmount, vecDiscount);
                 if (!vecPairs.isEmpty()) {
                     return getLinesFromVecPairs(vecPairs, line);
                 }
             }
-            else if(vecQuantity.size() < vecDiscount.size()){
+            else if(vecAmount.size() < vecDiscount.size()){
                 break;
             }
             ++discountStep;
@@ -79,30 +79,30 @@ QVector<Invoice::Line> DiscountSplitter::getLinesFromVecPairs(const QVector<QPai
 
 QVector<Invoice::Line> DiscountSplitter::getEasySolution(const Invoice::Line &line)
 {
-    if (line.quantity > line.discount || line.quantity < 1 || line.discount < 1) {
+    if (line.amount > line.discount || line.amount < 1 || line.discount < 1) {
         return QVector<Invoice::Line>{modifyIncorrectLine(line)};
     }
     QVector<Invoice::Line> vecLines;
-    for (unsigned int var = 0; var < line.quantity - 1; ++var) {
+    for (unsigned int var = 0; var < line.amount - 1; ++var) {
         vecLines.append(Invoice::Line{line.name, line.price, 1, 1});
     }
-    vecLines.append(Invoice::Line{line.name, line.price, 1, line.discount - line.quantity + 1});
+    vecLines.append(Invoice::Line{line.name, line.price, 1, line.discount - line.amount + 1});
     return vecLines;
 }
 
 Invoice::Line DiscountSplitter::modifyIncorrectLine(const Invoice::Line &line)
 {
-    if (line.quantity < 1) {
-        qWarning() << "Error. Quantity less 0" << Qt::endl;
+    if (line.amount < 1) {
+        qWarning() << "Error. Amount less 0" << Qt::endl;
         return Invoice::Line{line.name, line.price, 1, 1};
     }
-    else if (line.quantity > line.discount || line.discount < 1) {
-        qWarning() << "Error. Quantity more discount" << Qt::endl;
-        return Invoice::Line{line.name, line.price, line.quantity, line.quantity};
+    else if (line.amount > line.discount || line.discount < 1) {
+        qWarning() << "Error. Amount more discount" << Qt::endl;
+        return Invoice::Line{line.name, line.price, line.amount, line.amount};
     }
     qWarning() << "Error. Can't find necessary numbers. To solve the problem, I reduce the discount" << Qt::endl;
-    const auto discount = line.discount > 0 ? (line.discount - (line.quantity % line.discount)) : line.quantity;
-    return Invoice::Line{line.name, line.price, line.quantity, discount};
+    const auto discount = line.discount > 0 ? (line.discount - (line.amount % line.discount)) : line.amount;
+    return Invoice::Line{line.name, line.price, line.amount, discount};
 }
 
 QVector<QVector<unsigned int> > DiscountSplitter::combinationSum(QVector<unsigned int> &candidates, int target, const int maxSize)
@@ -134,19 +134,19 @@ void DiscountSplitter::backtrack(QVector<QVector<unsigned int> > &output, QVecto
     }
 }
 
-QVector<QPair<unsigned int, unsigned int> > DiscountSplitter::findDivisionWithoutRemainder(const QVector<unsigned int> &quantity_candidates, const QVector<unsigned int> &discount_candidates)
+QVector<QPair<unsigned int, unsigned int> > DiscountSplitter::findDivisionWithoutRemainder(const QVector<unsigned int> &amount_candidates, const QVector<unsigned int> &discount_candidates)
 {
-    if (quantity_candidates.size() != discount_candidates.size()) {
+    if (amount_candidates.size() != discount_candidates.size()) {
         return {};
     }
     QVector<QPair<unsigned int, unsigned int> > vecPairs;
-    for (int var = 0; var < quantity_candidates.size(); ++var) {
-        const auto quantity = quantity_candidates.at(var);
+    for (int var = 0; var < amount_candidates.size(); ++var) {
+        const auto amount   = amount_candidates.at(var);
         const auto discount = discount_candidates.at(var);
-        if (discount % quantity != 0) {
+        if (discount % amount != 0) {
             return {};
         }
-        vecPairs.append(qMakePair(quantity, discount));
+        vecPairs.append(qMakePair(amount, discount));
     }
     return vecPairs;
 }

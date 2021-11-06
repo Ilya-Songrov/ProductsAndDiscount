@@ -27,7 +27,7 @@ public:
 
 private:
     static QVector<Invoice::Line> splitLine(const Invoice::Line &line);
-    static QVector<Invoice::Line> getSplitingLines(const QVector<QVector<unsigned int>> &quantity_output,
+    static QVector<Invoice::Line> getSplitingLines(const QVector<QVector<unsigned int>> &amount_output,
                                                    const QVector<QVector<unsigned int>> &discount_output,
                                                    const Invoice::Line &line);
     static QVector<Invoice::Line> getLinesFromVecPairs(const QVector<QPair<unsigned int, unsigned int> > &vecParis,
@@ -39,7 +39,7 @@ private:
     static void backtrack(QVector<QVector<unsigned int>> &output, QVector<unsigned int> &current, QVector<unsigned int> &candidates, int remain, int start, const int maxSize);
 
     static QVector<QPair<unsigned int, unsigned int> > findDivisionWithoutRemainder(
-            const QVector<unsigned int>& quantity_candidates,
+            const QVector<unsigned int>& amount_candidates,
             const QVector<unsigned int>& discount_candidates);
 };
 

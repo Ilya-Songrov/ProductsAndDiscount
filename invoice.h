@@ -19,20 +19,20 @@ class Invoice
 {
 public:
     struct Line{
-        QString name              ;
-        unsigned int price        = 0;
-        unsigned int quantity     = 0;
-        unsigned int discount     = 0;
-        Line(const QString &n, const unsigned int p, const unsigned int q, const unsigned int d)
+        QString name                ;
+        unsigned int price          = 0;
+        unsigned int amount         = 0;
+        unsigned int discount       = 0;
+        Line(const QString &n, const unsigned int p, const unsigned int a, const unsigned int d)
             : name(n)
             , price(p)
-            , quantity(q)
+            , amount(a)
             , discount(d)
         {}
         bool operator==(const Line &l){
             return l.name == this->name &&
                     l.price == this->price &&
-                    l.quantity == this->quantity &&
+                    l.amount == this->amount &&
                     l.discount == this->discount;
         }
     };

@@ -42,23 +42,23 @@ void Invoice::printInvoice(const QString &message)
 {
     const int space_name        = 10;
     const int space_price       = 10;
-    const int space_quantity    = 10;
+    const int space_amount      = 10;
     const int space_discount    = 10;
     qDebug() << message
              << "\033[38;2;232;7;184m" << Qt::endl
              << QString("%1   %2   %3   %4").arg(
-                    QString("name:")     .leftJustified(space_name        ),
-                    QString("price:")    .leftJustified(space_price       ),
-                    QString("quantity:") .leftJustified(space_quantity    ),
-                    QString("discount:") .leftJustified(space_discount    ))
+                    QString("name:")        .leftJustified(space_name          ),
+                    QString("price:")       .leftJustified(space_price         ),
+                    QString("amount:")      .leftJustified(space_amount        ),
+                    QString("discount:")    .leftJustified(space_discount      ))
              << "\033[0m"
                 ;
     for (const Line& line: qAsConst(listLines)) {
         qDebug()  << QString("%1   %2   %3   %4").arg(
-                         line.name                      .leftJustified(space_name        ),
-                         QString::number(line.price)    .leftJustified(space_price       ),
-                         QString::number(line.quantity) .leftJustified(space_quantity    ),
-                         QString::number(line.discount) .leftJustified(space_discount    ))
+                         line.name                      .leftJustified(space_name       ),
+                         QString::number(line.price)    .leftJustified(space_price      ),
+                         QString::number(line.amount) .leftJustified(space_amount       ),
+                         QString::number(line.discount) .leftJustified(space_discount   ))
                      ;
     }
     qDebug() << Qt::endl;
