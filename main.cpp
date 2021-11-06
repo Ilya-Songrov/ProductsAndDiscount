@@ -27,13 +27,13 @@ int main(int argc, char *argv[])
 //    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 353, 2, 1});
 //    invoiceOriginal.appendLine(Invoice::Line{"Product_F", 353, 2, 0});
 //    invoiceOriginal.appendLine(Invoice::Line{"Product_G", 353, 0, 1});
-    invoiceOriginal.printInvoice();
+    invoiceOriginal.printInvoice("Original invoice:");
 
     Invoice invoiceModified;
     for (int var = 0; var < invoiceOriginal.getSize(); ++var) {
         invoiceModified.appendLines(DiscountSplitter::splitInvoiceLine(invoiceOriginal.getLineAt(var)));
     }
-    invoiceModified.printInvoice();
+    invoiceModified.printInvoice("Modified invoice:");
 
     return a.exec();
 }

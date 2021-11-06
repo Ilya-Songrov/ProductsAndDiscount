@@ -41,7 +41,7 @@ public:
     void appendLine(const Line &line);
     void appendLines(const QVector<Line> &vecLines);
     void replaceLine(const Line &line, const QVector<Line> &vecLines);
-    void printInvoice();
+    void printInvoice(const QString &message);
 
     int getSize();
     Line getLineAt(const int index);
