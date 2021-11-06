@@ -20,13 +20,13 @@ int main(int argc, char *argv[])
 
     Invoice invoiceOriginal;
     invoiceOriginal.appendLine(Invoice::Line{"Product_A", 127, 5, 21});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_A", 127, 4, 9});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_B", 127, 3, 23});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_C", 353, 5, 45});
-    invoiceOriginal.appendLine(Invoice::Line{"Product_D", 353, 2, 2});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 353, 2, 1});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_F", 353, 2, 0});
-//    invoiceOriginal.appendLine(Invoice::Line{"Product_G", 353, 0, 1});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_B", 127, 4, 9});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_C", 127, 3, 23});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_D", 353, 5, 45});
+    invoiceOriginal.appendLine(Invoice::Line{"Product_E", 353, 2, 2});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_F", 353, 2, 1});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_G", 353, 2, 0});
+//    invoiceOriginal.appendLine(Invoice::Line{"Product_H", 353, 0, 1});
     invoiceOriginal.printInvoice("Original invoice:");
 
     Invoice invoiceModified;

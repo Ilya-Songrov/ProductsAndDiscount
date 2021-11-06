@@ -1,6 +1,6 @@
  If discount divides by amount with remainder, we divide amount and discount into parts so that it is without remainder.
 
-![Screen Shot](md/image_2021-11-06_13-13-19.png)
+![Screen Shot](md/image_2021-11-06_13-46-37.png)
 
 ## How to build (Ubuntu 20.04)
 ```
